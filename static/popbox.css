@@ -1,0 +1,86 @@
+.pop-box-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  overflow: auto;
+}
+.pop-box-mask .pop-content {
+  padding: 20px 25px;
+  background: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.14);
+  animation-duration: .3s;
+  animation-fill-mode: both;
+  animation-name: popBoxZoomIn;
+}
+.pop-box-mask .pop-content .menu {
+  line-height: 20px;
+  position: relative;
+  margin-bottom: 14px;
+}
+.pop-box-mask .pop-content .menu .box-label {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #333333;
+  min-height: 24px;
+  display: inline-block;
+  min-height: 24px;
+}
+.pop-box-mask .pop-content .menu .box-cancel {
+  position: absolute;
+  right: 0px;
+  font-size: 17px;
+  top: 0px;
+  background-size: 22px;
+  height: 24px;
+  width: 24px;
+  min-height: 24px;
+  display: inline-block;
+  background-image: url(./img/icon-close.svg);
+}
+.content{
+  max-height: 590px;
+  overflow: auto;
+}
+.content::-webkit-scrollbar {
+  background:transparent;
+  border-radius: 10px;
+  width: 8px;
+}
+.content::-webkit-scrollbar-thumb:vertical {
+  background:#aaa;
+  border-radius: 10px;
+}
+.pop-box-mask .submit-button-row {
+  margin-top: 40px;
+}
+.pop-box-mask .submit-button-row .pop-submit {
+  margin-left: 12px;
+}
+.pop-box-mask .submit-button-row.center {
+  text-align: center;
+}
+.pop-box-mask .submit-button-row.left {
+  text-align: left;
+}
+.pop-box-mask .submit-button-row.right {
+  text-align: right;
+}
+@keyframes popBoxZoomIn {
+  from {
+  opacity: 0;
+  transform: scale3d(0.7, 0.7, 0.7);
+}
+50% {
+  opacity: 1;
+}
+
+}
