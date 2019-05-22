@@ -1,7 +1,9 @@
 'use strict'
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const I18nPlugin = require('@ah/i18n/src/plugins/webpack');
+
 module.exports = {
   entry: {
     app: './test/test.js'
@@ -13,14 +15,18 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.css$/,
+      test: /\.less$/,
       use: [
         {
           loader: 'style-loader', // creates style nodes from JS strings
         },
         {
           loader: 'css-loader', // translates CSS into CommonJS
-        }
+        },
+        {
+          loader: 'less-loader', // compiles Less to CSS
+        },
+
       ]
     },
       {
@@ -55,6 +61,11 @@ module.exports = {
       from: path.resolve('./static'),
       to: 'static',
       ignore: ['.*']
-    }])
+    }]),
+    new I18nPlugin({
+      output: path.join(__dirname,'./src/i18n/output'),        
+      type: 'js',
+      source: path.join(__dirname, './test/i18n')
+    }),
   ]
 }

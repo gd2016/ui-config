@@ -17,9 +17,19 @@ const template = function(config) {
   `
   //
 }
-import './index.css';
+import langData from '../../src/i18n/output/all.js';
+import I18n from '@ah/i18n';
+import './index.less';
 export default class PopBox {
   constructor(props) {
+    let i18n = new I18n({
+      data: langData
+    });
+    if(!props.lang){
+      console.error('please set i18n ');
+      return 
+    }
+    i18n.setLang(props.lang);
     Object.assign(this, {
       $container:$('body'),
       title: '',
@@ -27,8 +37,8 @@ export default class PopBox {
       customMenu: '',
       customButton: '',
       showClose: true,
-      cancelButtonText: '取消',
-      confirmButtonText: '提交',
+      cancelButtonText: i18n.get('cancel'),
+      confirmButtonText: i18n.get('submit'),
       cancelButtonClass: '',
       confirmButtonClass: '',
       lockScroll: false,
@@ -42,9 +52,9 @@ export default class PopBox {
       emptyClickClose: false,//空白区域点击，关闭弹框
       afterCloseDestroy: true,//页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false,)
       customClass: '',
-      btnAlign: 'right',
-      lang: 'zh'
+      btnAlign: 'right'
     }, props)
+    
     this.updateContent();
   }
 
