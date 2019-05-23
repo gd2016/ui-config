@@ -8,36 +8,43 @@
 
 | Key             | Default | Description                                   |
 |-----------------|---------|-----------------------------------------------|
-| formAction      | LOGIN   |   LOGIN 登录 <br/>BIND 绑定  个人中心 -> 账号安全 -> 绑定手机号 <br/>  VERIFY 修改手机号时验证旧手机 <br/> NEWBIND 修改手机号时绑定新手机 <br/> SETPASSWORD 重置密码（找回密码时） <br/> RESET 找回密码时验证手机 <br/> MODIFY 个人中心修改密码时验证手机 <br/> RESETPASSWORD 个人中心修改密码  <br/> |
-| INTERVAL        |  60     | 验证码时间间隔                                  |
-| APPID           | wxb336aabd177e95d0| 在微信开放平台申请的APPID |
-| lang            | zh      | 语言           |
-| host            | \_\_ALLHISTORY_HOSTNAME\_\_ | 接口地址host |
-| newSendMessageUrl  | /api/auth/w1/n/sms/send | 验证码接口地址 |
-| newCheckMessageUrl | /api/auth/w1/n/sms/check | 检查验证码，并登录/注册/绑定手机号/解绑手机号 |
-| newResetPasswordWithPhoneUrl | /api/auth/w1/n/setPassword | 找回密码时设置密码 |
-| modifyPasswordUrl | /api/auth/w1/y/modifyPassword | 修改密码(通过手机号修改) |
-| newLoginWithPasswordUrl | /api/auth/w1/n/login | 用户名密码登录 |
-| newCheckCaptchaUrl | /api/auth/w1/n/checkKaptcha | 图片验证码提交 |
-| newGetCaptchaUrl | /api/auth/w1/n/getKaptcha | 图片验证码获取 |
-| requestConfig | {encrypt:false} |   Superfetch配置  |
-| onclose    |  Function     |  关闭窗口时的回调 |
+|  $container     |$('body') | 容器 |
+|  title     | '' | 标题 |
+|  content     | '' |  内容，可以是html  |
+|  customMenu     | '' |   自定义头部 |
+|  customButton     | '' | 自定义底部按钮 | 
+|  showClose     | true | 是否展示close图标 |
+|  cancelButtonText  | i18n.get('cancel') | 取消按钮文案 |
+|  confirmButtonText | i18n.get('submit') | 提交按钮文案 |
+|  cancelButtonClass | '' |  取消按钮类名  |
+|  confirmButtonClass  | ''  | 提交按钮类名  |
+|  lockScroll     | false  | 是否在 PopBpx 出现时将 body 滚动锁定 |
+|  width     | '60%' | 宽度（百分比或像素）  |
+|  afterPop     | function () { } | 显示后回调 |
+|  beforeClose     | function () { } | 关闭前回调 | 
+|  afterClose     | function () { } | 关闭后回调 |
+|  onSubmit     | function () { } | 点击确定事件 |
+|  emptyClickClose     | false  | 是否空白区域点击，关闭弹框  |
+|  afterCloseDestroy     | true | 页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false) |
+|  customClass     | '' | PopBox的自定义类名  |
+|  btnAlign     | 'right' |  底部按钮布局方式（left,center,right） |
 
 ### Method
 
 | name             | params | return   | description |
 |-----------------|---------|---------------|--------------------------------|
-|  close          |    -      |   -   | 强制关闭窗口  |
+|  updateContent  | content |   -   | 更新PopBox内容  |
+|  pop            |    -    |   -   | 弹出PopBox     |
+|  close          |    -    |   -   | 关闭PopBox     |
 
 ### Usage
 
 ```javascript
-import LoginBox from '@portal//login-box';
+import { PopBox } from ‘@portal/dls-ui';
 
-new loginbox({
-  lang: "zh",
-  formAction: "LOGIN",
-  host: "__ALLHISTORY_HOSTNAME__"
+
+$("#open").click(()=>{
+  new PopBox({title:'1',lang:'en',cancelButtonText:'123'});
 })
 ```
 

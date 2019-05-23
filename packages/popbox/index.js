@@ -22,14 +22,15 @@ import I18n from '@ah/i18n';
 import './index.less';
 export default class PopBox {
   constructor(props) {
-    let i18n = new I18n({
-      data: langData
+    this.i18n = new I18n({
+      data: langData,
+      globalFnName: false
     });
     if(!props.lang){
       console.error('please set i18n ');
       return 
     }
-    i18n.setLang(props.lang);
+    this.i18n.setLang(props.lang);
     Object.assign(this, {
       $container:$('body'),
       title: '',
@@ -37,8 +38,8 @@ export default class PopBox {
       customMenu: '',
       customButton: '',
       showClose: true,
-      cancelButtonText: i18n.get('cancel'),
-      confirmButtonText: i18n.get('submit'),
+      cancelButtonText: this.i18n.get('cancel'),
+      confirmButtonText: this.i18n.get('submit'),
       cancelButtonClass: '',
       confirmButtonClass: '',
       lockScroll: false,
@@ -55,10 +56,10 @@ export default class PopBox {
       btnAlign: 'right'
     }, props)
     
-    this.updateContent();
+    this.updateContent(this.content);
   }
 
-  updateContent(){
+  updateContent(content){
     const zIndex = this.setIndex();
     this.popBox = $(template({
       zIndex: zIndex,
@@ -70,7 +71,7 @@ export default class PopBox {
       cancelButtonClass: this.cancelButtonClass,
       confirmButtonClass: this.confirmButtonClass,
     }));
-    this.popBox.find('.content').append(this.content);
+    this.popBox.find('.content').append(content);
     this.popBox.find('.menu').append(this.customMenu);
     this.popBox.find('.pop-content').append(this.customButton);
     if(this.popBox) this.popBox.remove();

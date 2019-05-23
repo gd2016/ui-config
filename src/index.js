@@ -1,5 +1,5 @@
-import Popbox from '../packages/popbox/index';
+import PopBox from '../packages/popbox/index';
 
 export {
-  Popbox
+  PopBox
 }
