@@ -34,7 +34,7 @@ export default class PopBox {
     Object.assign(this, {
       $container:$('body'),
       title: '',
-      content: '',
+      $content: '',
       customMenu: '',
       customButton: '',
       showClose: true,
@@ -53,13 +53,14 @@ export default class PopBox {
       emptyClickClose: false,//空白区域点击，关闭弹框
       afterCloseDestroy: true,//页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false,)
       customClass: '',
-      btnAlign: 'right'
+      btnAlign: 'right',
+      ZINDEX: 1003
     }, props)
     
-    this.updateContent(this.content);
+    this.updateContent(this.$content);
   }
 
-  updateContent(content){
+  updateContent(box){
     const zIndex = this.setIndex();
     this.popBox = $(template({
       zIndex: zIndex,
@@ -71,11 +72,11 @@ export default class PopBox {
       cancelButtonClass: this.cancelButtonClass,
       confirmButtonClass: this.confirmButtonClass,
     }));
-    this.popBox.find('.content').append(content);
+    this.popBox.find('.content').append(box);
     this.popBox.find('.menu').append(this.customMenu);
     this.popBox.find('.pop-content').append(this.customButton);
     if(this.popBox) this.popBox.remove();
-    this.$content = this.popBox.find('.pop-content');    
+    this.content = this.popBox.find('.pop-content');    
     this.$container.append(this.popBox);
     this._initialDom();
     this._bind();
@@ -109,12 +110,19 @@ export default class PopBox {
   }
 
   resize() {
-    var contentWidth = this.$content.outerWidth(),
-      contentHeight = this.$content.outerHeight();
-    this.$content.css({
+    var contentWidth = this.content.outerWidth(),
+      contentHeight = this.content.outerHeight();
+    this.content.css({
       'margin-left': - (contentWidth / 2) + 'px',
       'margin-top': - (contentHeight / 2) + 'px'
     });
+    let maxHeight = (window.innerHeight - (this.padding * 2)); //防止内容高度大于窗口高度导致看不见内容
+    if (contentHeight > maxHeight) {
+      //outer scroll
+      this.content.css({
+        'margin-top': - (window.innerHeight / 2 - this.padding) + 'px'
+      });
+    }
   }
 
   _emptyClick(e){
@@ -161,7 +169,7 @@ export default class PopBox {
 
   setIndex(){
     const indexArr = [];
-    let zIndex = 1000;
+    let zIndex = this.ZINDEX;
     this.$container.find('.pop-box-mask').each((i,ele)=>{
       indexArr.push($(ele).css('zIndex'));
     })
