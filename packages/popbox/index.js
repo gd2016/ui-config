@@ -48,13 +48,14 @@ export default class PopBox {
       beforeClose: function () { },
       afterClose: function () { },
       onSubmit: function () { },
-      onScroll() { },
       windowResize: true,
       emptyClickClose: false,//空白区域点击，关闭弹框
       afterCloseDestroy: true,//页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false,)
       customClass: '',
       btnAlign: 'right',
-      ZINDEX: 1003
+      ZINDEX: 1003,
+      modal: false,
+      hide: false
     }, props)
     
     this.updateContent(this.$content);
@@ -76,7 +77,11 @@ export default class PopBox {
     this.popBox.find('.menu').append(this.customMenu);
     this.popBox.find('.pop-content').append(this.customButton);
     if(this.popBox) this.popBox.remove();
-    this.content = this.popBox.find('.pop-content');    
+    this.content = this.popBox.find('.pop-content');   
+    if(!this.modal){
+      this.popBox.css({'background': 'none'})
+    } 
+    if(this.hide) this.popBox.hide();
     this.$container.append(this.popBox);
     this._initialDom();
     this._bind();

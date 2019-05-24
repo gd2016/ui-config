@@ -28,6 +28,9 @@
 |  afterCloseDestroy     | true | 页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false) |
 |  customClass     | '' | PopBox的自定义类名  |
 |  btnAlign     | 'right' |  底部按钮布局方式（left,center,right） |
+|  ZINDEX       |  1003   |  pop-box-mask的z-index值  |
+|  hide         |   false | 初始化时 是否隐藏 |
+|  modal  | false   |  是否不显示遮罩层 |
 
 ### Method
 
