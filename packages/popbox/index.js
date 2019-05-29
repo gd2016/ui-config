@@ -20,30 +20,28 @@ const template = function(config) {
 import langData from '../../src/i18n/output/all.js';
 import I18n from '@ah/i18n';
 import './index.less';
+import PerfectScrollBar from 'perfect-scrollbar';
 export default class PopBox {
   constructor(props) {
     this.i18n = new I18n({
-      data: langData,
-      globalFnName: false
+      data: langData
     });
-    if(!props.lang){
-      console.error('please set i18n ');
-      return 
-    }
-    this.i18n.setLang(props.lang);
+    this.i18n.setLang(props.lang||'zh');
     Object.assign(this, {
-      $container:$('body'),
+      $container: $('body'),
       title: '',
       $content: '',
       customMenu: '',
+      showMenu: true,
+      showButton: true,
       customButton: '',
-      showClose: true,
+      customContent: false,
       cancelButtonText: this.i18n.get('cancel'),
       confirmButtonText: this.i18n.get('submit'),
       cancelButtonClass: '',
       confirmButtonClass: '',
       lockScroll: false,
-      width: '60%',
+      width: '',
       afterPop: function () { },
       beforeClose: function () { },
       afterClose: function () { },
@@ -53,15 +51,16 @@ export default class PopBox {
       afterCloseDestroy: true,//页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false,)
       customClass: '',
       btnAlign: 'right',
-      ZINDEX: 1003,
-      modal: false,
-      hide: false
+      zIndex: 1003,
+      modal: true,
+      hide: false,
+      padding: 20
     }, props)
-    
     this.updateContent(this.$content);
   }
 
   updateContent(box){
+    if(this.popBox) this.popBox.remove();
     const zIndex = this.setIndex();
     this.popBox = $(template({
       zIndex: zIndex,
@@ -73,19 +72,21 @@ export default class PopBox {
       cancelButtonClass: this.cancelButtonClass,
       confirmButtonClass: this.confirmButtonClass,
     }));
-    this.popBox.find('.content').append(box);
-    this.popBox.find('.menu').append(this.customMenu);
-    this.popBox.find('.pop-content').append(this.customButton);
-    if(this.popBox) this.popBox.remove();
-    this.content = this.popBox.find('.pop-content');   
-    if(!this.modal){
-      this.popBox.css({'background': 'none'})
-    } 
+    if(this.customContent){
+      this.popBox = box;  
+    } else {
+      this.popBox.find('.content').append(box);
+    }
+    if(this.customMenu) this.popBox.find('.menu').html(this.customMenu);
+    if(this.customButton) this.popBox.find('.pop-content').append(this.customButton);
+    if(!this.modal) this.popBox.css({background: 'white'});
+    this.content = this.popBox.find('.pop-content');  
     if(this.hide) this.popBox.hide();
     this.$container.append(this.popBox);
+    this._initPerfectScrollBar();
     this._initialDom();
     this._bind();
-    this.afterPop();
+    if(!this.hide) this.afterPop();
   }
 
   submit() {
@@ -96,11 +97,15 @@ export default class PopBox {
     if(this.lockScroll){
       $('body').addClass('scroll-lock');
     }
+    
     this.popBox.show();
+    if(this.hide){
+      this.resize();
+    } 
+    this.afterPop();
   }
   close() {
     this.beforeClose();
-    this._unbind();
     $('body').removeClass('scroll-lock');
     if (this.afterCloseDestroy) {
       this.destroy();
@@ -111,6 +116,7 @@ export default class PopBox {
   }
 
   destroy() {
+    this._unbind();
     this.popBox.remove();
   }
 
@@ -129,6 +135,15 @@ export default class PopBox {
       });
     }
   }
+  _initPerfectScrollBar(){
+    this.popBox.addClass('scroll-box--wrapped scroll-box--show-axis-y ps ps--active-y ps--focus')
+    this.ps = new PerfectScrollBar(this.popBox[0], {
+      wheelPropagation: true,
+      maxScrollbarLength: 100,
+      scrollingThreshold: 0,
+    })
+    this.popBox.find('.ps__thumb-y').css('background-color', '#333');
+  }
 
   _emptyClick(e){
     if(e.target.className.indexOf('pop-box-mask') > -1){
@@ -136,13 +151,12 @@ export default class PopBox {
     }
   }
   _initialDom(){
-    if(!this.showClose || this.customMenu) this.popBox.find('.pop-close').remove();
-    if(!this.title || this.customMenu) this.popBox.find('.box-label').remove();
-    if(this.customButton) this.popBox.find('.pop-box-btn-space').remove();
-    this.popBox.find('.pop-content').css({'width': this.width});
-    if(this.lockScroll){
-      $('body').addClass('scroll-lock');
-    }
+    if(!this.showMenu) this.popBox.find('.menu').remove();
+    if(this.customButton || !this.showButton) this.popBox.find('.pop-box-btn-space').remove();
+    if(this.width) this.popBox.find('.pop-content').css({'width': this.width});  
+    if(this.lockScroll) $('body').addClass('scroll-lock');
+    if(this.padding!==20) this.$container.find('.pop-content').css({padding: this.padding});
+    
   }
   _bind() {
 
@@ -174,7 +188,7 @@ export default class PopBox {
 
   setIndex(){
     const indexArr = [];
-    let zIndex = this.ZINDEX;
+    let zIndex = this.zIndex;
     this.$container.find('.pop-box-mask').each((i,ele)=>{
       indexArr.push($(ele).css('zIndex'));
     })

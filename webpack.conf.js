@@ -3,7 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const I18nPlugin = require('@ah/i18n/src/plugins/webpack');
-
+const port = 8081
 module.exports = {
   entry: {
     app: './test/test.js'
@@ -45,11 +45,14 @@ module.exports = {
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
     host: "localhost",
-    port: "8081",
+    port: port,
     publicPath: "/",
     proxy: {
       "/api": "http://10.4.40.168"
     },    
+    after(app){
+      console.log(`Your application is running here: http://localhost:${port}`);
+    },
     quiet: true // necessary for FriendlyErrorsPlugin
   },
   plugins: [

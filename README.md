@@ -12,7 +12,10 @@
 |  title     | '' | 标题 |
 |  content     | '' |  内容，可以是html  |
 |  customMenu     | '' |   自定义头部 |
+|  showMenu  | true  | 是否显示头部  |
+|  showButton  | true  | 是否显示底部按钮  |
 |  customButton     | '' | 自定义底部按钮 | 
+|  customContent   | false | 是否自定义内容 |
 |  showClose     | true | 是否展示close图标 |
 |  cancelButtonText  | i18n.get('cancel') | 取消按钮文案 |
 |  confirmButtonText | i18n.get('submit') | 提交按钮文案 |
@@ -28,9 +31,11 @@
 |  afterCloseDestroy     | true | 页面关掉后是否销毁，默认true(销毁)，(正文编辑-分类-传入false) |
 |  customClass     | '' | PopBox的自定义类名  |
 |  btnAlign     | 'right' |  底部按钮布局方式（left,center,right） |
-|  ZINDEX       |  1003   |  pop-box-mask的z-index值  |
+|  zIndex       |  1003   |  pop-box-mask的z-index值  |
 |  hide         |   false | 初始化时 是否隐藏 |
-|  modal  | false   |  是否不显示遮罩层 |
+|  modal  | true   |  是否显示遮罩层(如果不显示，实际上只修改了背景颜色，可以再设置ZINDEX) |
+|  padding | 20 | pop-content内填充  |
+
 
 ### Method
 

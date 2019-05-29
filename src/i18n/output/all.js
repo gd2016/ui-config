@@ -1,1 +1,1 @@
-module.exports = {"common":{"submit":{"zh":"提交","en":"submit"},"cancel":{"zh":"取消","en":"cancel"}}}
+module.exports = {"common":{"submit":{"zh":"确认","en":"submit"},"cancel":{"zh":"取消","en":"cancel"}}}
