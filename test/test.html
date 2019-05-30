@@ -6,10 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="/static/common.css">
+  <link rel="stylesheet" href="/static/popbox.css">
+  <link rel="stylesheet" href="/static/radiobox.css">
 </head>
 <body>
-  <script src="https://cdn.bootcss.com/jquery/1.12.1/jquery.min.js"></script>  
+  <script src="https://cdn.bootcss.com/jquery/1.12.1/jquery.min.js"></script> 
+  <h2>PopBox</h2> 
   <button type="button" id="open">打开popBox</button>
   <button type="button" id="open1">打开未销毁的popBox</button>
+
+  <h2>RadioBox</h2>
+  <div class="radiobox">
+    <input id="ab-type-all" type="radio" name="abType"  value="0" data-label="label1" />
+    <input id="ab-type-person-only" type="radio" name="abType"  value="1" data-label="label2" />
+    <input id="ab-type-family-only" type="radio" name="abType"  value="2" data-label="label3" />
+  </div>
 </body>
 </html>

@@ -58,4 +58,45 @@ $("#open").click(()=>{
 
 
 
+### RadioBox
+
+| Key             | Default | Description                                   |
+|-----------------|---------|-----------------------------------------------|
+|  $container     | $('body') | 容器 |
+|  name     | 'radio' | 容器下radio元素的name值，会根据此name找到radio元素 |
+|  value     | '' |  默认选中值 |
+|  $htmls     | [] |   额外的html元素  |
+|  onClick     | Function(value) |   点击回调，参数是value值  |
+
+
+### Method
+
+| name             | params | return   | description |
+|-----------------|---------|---------------|--------------------------------|
+|  getValue  | content |   -   | 获取选择value值  |
+|  setValue            |    value    |   -   | 设置选中value值     |
+
+### Usage
+```html
+<div class="radiobox">
+  <input id="ab-type-all" type="radio" name="abType"  value="0" data-label="label1" />
+  <input id="ab-type-person-only" type="radio" name="abType"  value="1" data-label="label2" />
+  <input id="ab-type-family-only" type="radio" name="abType"  value="2" data-label="label3" />
+</div>
+```
+
+```javascript
+import { RadioBox } from '@portal/dls-ui';
+
+new RadioBox({
+  name: 'abType',
+  $container: $('.radiobox'),
+  value: 1,
+  onClick: value => {
+    console.log(value)
+  }
+});
+
+```
+
 
