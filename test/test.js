@@ -3,7 +3,7 @@ import RadioBox from '../packages/radiobox/index';
 var pop;
 $("#open").click(() => {
   pop = new PopBox({
-    title: "",
+    title: "标题",
     lang: "en",
     cancelButtonText: "123",
     afterCloseDestroy: false,

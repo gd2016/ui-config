@@ -68,7 +68,7 @@ module.exports = {
     new I18nPlugin({
       output: path.join(__dirname,'./src/i18n/output'),        
       type: 'js',
-      source: path.join(__dirname, './test/i18n')
+      source: path.join(__dirname, './src/i18n/langs')
     }),
   ]
 }
