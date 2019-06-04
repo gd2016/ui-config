@@ -1,21 +1,20 @@
-import PopBox from "../packages/popbox/index";
-import RadioBox from '../packages/radiobox/index';
-var pop;
-$("#open").click(() => {
+import PopBox from '../packages/popbox/index'
+import RadioBox from '../packages/radiobox/index'
+var pop
+$('#open').click(() => {
   pop = new PopBox({
-    title: "标题",
-    lang: "en",
-    cancelButtonText: "123",
+    title: '标题',
+    lang: 'en',
+    cancelButtonText: '123',
     afterCloseDestroy: false,
-    $content:'sfa<br>sfa<br>sfa<br>sfa<br>sfa<br>',
-    padding:"20px 30px",
-  });
-});
+    $content: 'sfa<br>sfa<br>sfa<br>sfa<br>sfa<br>',
+    padding: '20px 30px'
+  })
+})
 
-$("#open1").click(() => {
-  pop.pop();
-});
-
+$('#open1').click(() => {
+  pop.pop()
+})
 
 new RadioBox({
   name: 'abType',
@@ -24,4 +23,4 @@ new RadioBox({
   onClick: value => {
     console.log(value)
   }
-});
+})
