@@ -1,26 +1,34 @@
 import PopBox from '../packages/popbox/index'
 import RadioBox from '../packages/radiobox/index'
 var pop
-$('#open').click(() => {
+document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({
     title: '标题',
     lang: 'en',
     cancelButtonText: '123',
-    afterCloseDestroy: false,
-    $content: 'sfa<br>sfa<br>sfa<br>sfa<br>sfa<br>',
-    padding: '20px 30px'
+    $content: "<div id='test'>123123</div>",
+    padding: '20px 30px',
+    emptyClickClose: true,
+
+    submit: () => {
+      console.log('submit')
+    }
   })
 })
 
-$('#open1').click(() => {
+document.querySelector('#open1').addEventListener('click', () => {
   pop.pop()
 })
 
-new RadioBox({
+var raiod = new RadioBox({
   name: 'abType',
-  value: 1,
-  $container: $('.radiobox'),
+  value: 2,
+  domContainer: document.querySelector('.radiobox'),
   onClick: value => {
     console.log(value)
   }
 })
+setTimeout(() => {
+  raiod.setValue(1)
+  console.log(raiod.getValue())
+}, 2000)

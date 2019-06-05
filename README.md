@@ -6,9 +6,9 @@
 
 | Key             | Default | Description                                   |
 |-----------------|---------|-----------------------------------------------|
-|  $container     |$('body') | 容器 |
+|  $container     |  body<element> | 容器 (jquery节点或者dom节点) |
 |  title     | '' | 标题 |
-|  content     | '' |  内容，可以是html  |
+|  $content     | '' |  内容，可以是html，也可以是元素  |
 |  customMenu     | '' |   自定义头部 |
 |  showMenu  | true  | 是否显示头部  |
 |  showButton  | true  | 是否显示底部按钮  |
@@ -60,10 +60,10 @@ $("#open").click(()=>{
 
 | Key             | Default | Description                                   |
 |-----------------|---------|-----------------------------------------------|
-|  $container     | $('body') | 容器 |
+|  domContainer     | body<element> | 容器(jquery节点或者dom节点) |
 |  name     | 'radio' | 容器下radio元素的name值，会根据此name找到radio元素 |
 |  value     | '' |  默认选中值 |
-|  $htmls     | [] |   额外的html元素  |
+|  domHtmls     | [] |   额外的html元素  |
 |  onClick     | Function(value) |   点击回调，参数是value值  |
 
 
@@ -86,14 +86,18 @@ $("#open").click(()=>{
 ```javascript
 import { RadioBox } from '@portal/dls-ui';
 
-new RadioBox({
+var raiod = new RadioBox({
   name: 'abType',
-  $container: $('.radiobox'),
-  value: 1,
+  value: 2,
+  domContainer: document.querySelector('.radiobox'),
   onClick: value => {
     console.log(value)
   }
-});
+})
+setTimeout(() => {
+  raiod.setValue(1)
+  console.log(raiod.getValue())
+}, 2000)
 
 ```
 

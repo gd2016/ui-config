@@ -28,7 +28,7 @@ export default class PopBox {
     })
     this.i18n.setLang(props.lang || 'zh')
     Object.assign(this, {
-      $container: $('body'),
+      $container: document.querySelector('body'),
       title: '',
       $content: '',
       customMenu: '',
@@ -56,13 +56,16 @@ export default class PopBox {
       hide: false,
       padding: 20
     }, props)
+    if (typeof this.$content === 'object' && !(this.$content instanceof window.HTMLElement)) this.$content = this.$content[0]
+    if (!(this.$container instanceof window.HTMLElement)) this.$container = this.$container[0]
     this.updateContent(this.$content)
   }
 
-  updateContent (box) {
-    if (this.popBox) this.popBox.remove()
+  updateContent ($content) {
+    if (this.popBox) this.popBox.parentNode.removeChild(this.popBox)
     const zIndex = this.setIndex()
-    this.popBox = $(template({
+    const parser = new window.DOMParser()
+    this.popBox = parser.parseFromString(template({
       zIndex: zIndex,
       title: this.title,
       customClass: this.customClass,
@@ -71,18 +74,19 @@ export default class PopBox {
       confirmButtonText: this.confirmButtonText,
       cancelButtonClass: this.cancelButtonClass,
       confirmButtonClass: this.confirmButtonClass
-    }))
+    }), 'text/html').body.firstChild
     if (this.customContent) {
-      this.popBox = box
+      this.popBox = $content
     } else {
-      this.popBox.find('.content').append(box)
+      if (typeof $content === 'object') this.popBox.querySelector('.content').appendChild($content)
+      else this.popBox.querySelector('.content').innerHTML = $content
+      if (this.customMenu) this.popBox.querySelector('.menu').innerHTML = this.customMenu
+      if (this.customButton) this.popBox.querySelector('.pop-content').appendChild(this.customButton)
     }
-    if (this.customMenu) this.popBox.find('.menu').html(this.customMenu)
-    if (this.customButton) this.popBox.find('.pop-content').append(this.customButton)
-    if (!this.modal) this.popBox.css({ background: 'white' })
-    this.content = this.popBox.find('.pop-content')
-    if (this.hide) this.popBox.hide()
-    this.$container.append(this.popBox)
+    if (!this.modal) this.popBox.style.backgroundColor = 'white'
+    this.content = this.popBox.querySelector('.pop-content')
+    if (this.hide) this.popBox.style.display = 'none'
+    this.$container.appendChild(this.popBox)
     this._initPerfectScrollBar()
     this._initialDom()
     this._bind()
@@ -95,10 +99,10 @@ export default class PopBox {
 
   pop () {
     if (this.lockScroll) {
-      $('body').addClass('scroll-lock')
+      this.$container.classList.add('scroll-lock')
     }
 
-    this.popBox.show()
+    this.popBox.style.display = 'block'
     if (this.hide) {
       this.resize()
     }
@@ -106,43 +110,39 @@ export default class PopBox {
   }
   close () {
     this.beforeClose()
-    $('body').removeClass('scroll-lock')
+    this.$container.classList.remove('scroll-lock')
     if (this.afterCloseDestroy) {
       this.destroy()
     } else {
-      this.popBox.hide()
+      this.popBox.style.display = 'none'
     }
     this.afterClose()
   }
 
   destroy () {
     this._unbind()
-    this.popBox.remove()
+    this.popBox.parentNode.removeChild(this.popBox)
   }
 
   resize () {
-    var contentWidth = this.content.outerWidth()
-    var contentHeight = this.content.outerHeight()
-    this.content.css({
-      'margin-left': -(contentWidth / 2) + 'px',
-      'margin-top': -(contentHeight / 2) + 'px'
-    })
+    var contentWidth = this.content.offsetWidth
+    var contentHeight = this.content.offsetHeight
+    this.content.style.marginLeft = -(contentWidth / 2) + 'px'
+    this.content.style.marginTop = -(contentHeight / 2) + 'px'
     let maxHeight = (window.innerHeight - (this.padding * 2)) // 防止内容高度大于窗口高度导致看不见内容
     if (contentHeight > maxHeight) {
       // outer scroll
-      this.content.css({
-        'margin-top': -(window.innerHeight / 2 - this.padding) + 'px'
-      })
+      this.content.style.marginTop = -(window.innerHeight / 2 - this.padding) + 'px'
     }
   }
   _initPerfectScrollBar () {
-    this.popBox.addClass('scroll-box--wrapped scroll-box--show-axis-y ps ps--active-y ps--focus')
-    this.ps = new PerfectScrollBar(this.popBox[0], {
+    this.popBox.classList.add('scroll-box--wrapped', 'scroll-box--show-axis-y', 'ps', 'ps--active-y', 'ps--focus')
+    this.ps = new PerfectScrollBar(this.popBox, {
       wheelPropagation: true,
       maxScrollbarLength: 100,
       scrollingThreshold: 0
     })
-    this.popBox.find('.ps__thumb-y').css('background-color', '#333')
+    this.popBox.querySelector('.ps__thumb-y').style.backgroundColor = '#333'
   }
 
   _emptyClick (e) {
@@ -151,27 +151,27 @@ export default class PopBox {
     }
   }
   _initialDom () {
-    if (!this.showMenu) this.popBox.find('.menu').remove()
-    if (this.customButton || !this.showButton) this.popBox.find('.pop-box-btn-space').remove()
-    if (this.width) this.popBox.find('.pop-content').css({ 'width': this.width })
+    if (!this.showMenu) this.popBox.querySelector('.menu').remove()
+    if (this.customButton || !this.showButton) this.popBox.querySelector('.pop-box-btn-space').remove()
+    if (this.width) this.popBox.querySelector('.pop-content').style.width = this.width
     if (this.lockScroll) $('body').addClass('scroll-lock')
-    if (this.padding !== 20) this.$container.find('.pop-content').css({ padding: this.padding })
+    if (this.padding !== 20) this.$container.querySelector('.pop-content').style.padding = this.padding
   }
   _bind () {
-    this.popBox.find('.pop-close').click(() => {
-      this.close()
+    const Nodes = this.popBox.querySelectorAll('.pop-close')
+    Nodes.forEach(ele => {
+      ele.addEventListener('click', this.close.bind(this))
     })
 
-    this.popBox.find('.pop-submit').click(() => {
-      this.submit()
-    })
+    this.popBox.querySelector('.pop-submit').addEventListener('click', this.submit.bind(this))
 
     if (this.emptyClickClose) {
-      this.popBox.mousedown(this._emptyClick.bind(this))
+      this.popBox.addEventListener('mousedown', this._emptyClick.bind(this))
     }
 
+    this._resize = this.resize.bind(this) // bind每次会返回一个新的函数，因此需要临时变量存储resize函数
     if (this.windowResize) {
-      $(window).on('resize.popbox', () => { this.resize() })
+      window.addEventListener('resize', this._resize, false)
     }
 
     setTimeout(e => {
@@ -180,14 +180,15 @@ export default class PopBox {
   }
 
   _unbind () {
-    $(window).off('resize.popbox')
+    window.removeEventListener('resize', this._resize, false)
   }
 
   setIndex () {
     const indexArr = []
     let zIndex = this.zIndex
-    this.$container.find('.pop-box-mask').each((i, ele) => {
-      indexArr.push($(ele).css('zIndex'))
+    const Nodes = this.$container.querySelectorAll('.pop-box-mask')
+    Nodes.length && Nodes.forEach((ele, i) => {
+      indexArr.push(ele.style.zIndex)
     })
     if (indexArr.length) {
       zIndex = Math.max.apply(null, indexArr) + 1
