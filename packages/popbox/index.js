@@ -26,7 +26,7 @@ export default class PopBox {
     this.i18n = new I18n({
       data: langData
     })
-    this.i18n.setLang(props.lang || 'zh')
+    this.i18n.setLang((window.i18n && window.i18n.lang) || 'zh')
     Object.assign(this, {
       $container: document.querySelector('body'),
       title: '',
