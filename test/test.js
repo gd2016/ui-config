@@ -1,4 +1,6 @@
 import PopBox from '../packages/popbox/index'
+import '../static/style/popbox/index.less'
+import '../static/style/radiobox/index.less'
 import RadioBox from '../packages/radiobox/index'
 var pop
 document.querySelector('#open').addEventListener('click', () => {

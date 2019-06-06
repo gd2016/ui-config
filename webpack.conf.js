@@ -1,8 +1,8 @@
 'use strict'
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const I18nPlugin = require('@ah/i18n/src/plugins/webpack');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const I18nPlugin = require('@ah/i18n/src/plugins/webpack')
 const port = 8081
 module.exports = {
   entry: {
@@ -11,32 +11,32 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
-    libraryTarget: "umd"
+    libraryTarget: 'umd'
   },
   module: {
     rules: [{
       test: /\.less$/,
       use: [
         {
-          loader: 'style-loader', // creates style nodes from JS strings
+          loader: 'style-loader' // creates style nodes from JS strings
         },
         {
-          loader: 'css-loader', // translates CSS into CommonJS
+          loader: 'css-loader' // translates CSS into CommonJS
         },
         {
-          loader: 'less-loader', // compiles Less to CSS
-        },
+          loader: 'less-loader' // compiles Less to CSS
+        }
 
       ]
     },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: path.resolve(__dirname, 'dist/img/[name].[hash:7].[ext]')
-        }
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        name: path.resolve(__dirname, 'dist/img/[name].[hash:7].[ext]')
       }
+    }
     ]
   },
   devServer: {
@@ -44,14 +44,14 @@ module.exports = {
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
-    host: "localhost",
+    host: 'localhost',
     port: port,
-    publicPath: "/",
+    publicPath: '/',
     proxy: {
-      "/api": "http://10.4.40.168"
-    },    
-    after(app){
-      console.log(`Your application is running here: http://localhost:${port}`);
+      '/api': 'http://10.4.40.168'
+    },
+    after (app) {
+      console.log(`Your application is running here: http://localhost:${port}`)
     },
     quiet: true // necessary for FriendlyErrorsPlugin
   },
@@ -66,9 +66,9 @@ module.exports = {
       ignore: ['.*']
     }]),
     new I18nPlugin({
-      output: path.join(__dirname,'./src/i18n/output'),        
+      output: path.join(__dirname, './src/i18n/output'),
       type: 'js',
       source: path.join(__dirname, './src/i18n/langs')
-    }),
+    })
   ]
 }
