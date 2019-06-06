@@ -1,3 +1,106 @@
+div,
+p,
+b,
+article,
+ul,
+li,
+ol,
+table,
+h1,
+h2,
+h3,
+h4,
+h5,
+input,
+textarea,
+svg,
+button,
+label {
+  vertical-align: top;
+}
+div:focus,
+p:focus,
+b:focus,
+article:focus,
+ul:focus,
+li:focus,
+ol:focus,
+table:focus,
+h1:focus,
+h2:focus,
+h3:focus,
+h4:focus,
+h5:focus,
+input:focus,
+textarea:focus,
+svg:focus,
+button:focus,
+label:focus {
+  outline: none;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  -webkit-text-size-adjust: none;
+  font-size: 14px;
+  color: #333;
+  font-family: -apple-system, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+}
+a {
+  color: #0056e7;
+  text-decoration: none;
+}
+a:visited {
+  color: #0056e7;
+}
+a:hover {
+  color: #ff7963;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  /* margin: 0;
+  padding: 0; */
+  word-wrap: break-word;
+}
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ol {
+  padding: 0;
+  margin: 0;
+}
+input {
+  box-shadow: none;
+  border: none;
+  transition: all .3s ease;
+}
+input:focus {
+  outline: none;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
+h4 {
+  font-size: 16px;
+}
+
 .page {
   background: #efefef;
 }

@@ -1,7 +1,9 @@
 import PopBox from '../packages/popbox/index'
 import '../static/style/popbox/index.less'
 import '../static/style/radiobox/index.less'
+import '../static/style/checkbox/index.less'
 import RadioBox from '../packages/radiobox/index'
+import CheckBox from '../packages/checkbox/te'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({
@@ -34,3 +36,23 @@ setTimeout(() => {
   raiod.setValue(1)
   console.log(raiod.getValue())
 }, 2000)
+
+var checkbox = new CheckBox({
+  name: 'timeline-node',
+  value: 2
+})
+$('#checkAll').click(() => {
+  checkbox.checkAll()
+})
+$('#cancelAll').click(() => {
+  checkbox.uncheckAll()
+})
+$('#getValue').click(() => {
+  console.log(checkbox.getAllCheckedValue())
+})
+$('#setValue').click(() => {
+  checkbox.setValue(0)
+})
+$('#cancelValue').click(() => {
+  checkbox.setValue(0, false)
+})
