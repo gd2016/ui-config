@@ -3,17 +3,17 @@ import '../static/style/popbox/index.less'
 import '../static/style/radiobox/index.less'
 import '../static/style/checkbox/index.less'
 import RadioBox from '../packages/radiobox/index'
-import CheckBox from '../packages/checkbox/te'
+import CheckBox from '../packages/checkbox'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({
     title: '标题',
     lang: 'en',
     cancelButtonText: '123',
-    $content: "<div id='test'>123123</div>",
+    $content: "<h2 id='test'>是否删除？</h2>",
     padding: '20px 30px',
-    emptyClickClose: true,
-
+    // emptyClickClose: true,
+    hide: true,
     submit: () => {
       console.log('submit')
     }
@@ -32,14 +32,17 @@ var raiod = new RadioBox({
     console.log(value)
   }
 })
-setTimeout(() => {
-  raiod.setValue(1)
-  console.log(raiod.getValue())
-}, 2000)
+// setTimeout(() => {
+//   raiod.setValue(1)
+//   console.log(raiod.getValue())
+// }, 2000)
 
 var checkbox = new CheckBox({
   name: 'timeline-node',
-  value: 2
+  value: ['1l', 2],
+  onChange: (value, bool, all) => {
+    console.log(value, bool, all)
+  }
 })
 $('#checkAll').click(() => {
   checkbox.checkAll()
@@ -54,5 +57,5 @@ $('#setValue').click(() => {
   checkbox.setValue(0)
 })
 $('#cancelValue').click(() => {
-  checkbox.setValue(0, false)
+  checkbox.setValue(0, false, true)
 })

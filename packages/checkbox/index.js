@@ -1,8 +1,7 @@
 const template = function (config) {
-  const disabled = config.disabled ? 'disabled' : ''
   return `
-  <div class="dls-check-box ${config.type}-box ${disabled}" data-value="${config.value}">
-    <div class="icon icon-checkbox ${disabled}"></div>
+  <div class="dls-check-box ${config.type}-box" data-value="${config.value}">
+    <div class="icon icon-checkbox"></div>
     <label for="${config.id}" class="cp">${config.label}</label>
   </div>
   `
@@ -10,124 +9,113 @@ const template = function (config) {
 export default class Checkbox {
   constructor (props) {
     Object.assign(this, {
-      // $container:'',
       name: 'check', // will find by name
-      label: 'Label 1', // checkbox label
-      value: '', // checkbox value
-      checked: '',
-      disabled: false,
+      value: [], // checkbox value
       $htmls: [],
       type: 'normal', // switcher
       onChange () { } // onchange event
     }, props)
-
     this._getInputs()
     this._render()
   }
 
   _getInputs () {
-    this.$radios = $(`input[name='${this.name}']`)
+    this.domCheckboxs = document.querySelectorAll(`input[name='${this.name}']`)
   }
 
   _render () {
     var self = this
-    this.$radios.each(function () {
-      let name = self.name
-      let label = $(this).data('label')
-      let value = $(this).attr('value')
-      let disabled = $(this).data('disabled')
-      let checked = $(this).prop('checked')
-
-      let id = $(this).attr('id')
-
-      let $html = $(template({ label, value, id, type: self.type, disabled }))
-
-      self.$htmls.push($html)
-
-      self._bind($html, $(this))
-      $(this).after($html)
-      $(this).hide()
-      if (checked) {
-        $(this).prop('checked', false)
-        self._onClick($html, $(this))
+    this.domCheckboxs.forEach(function (ele) {
+      let label = ele.getAttribute('data-label') || ''
+      let value = self._getAttr(ele, 'value')
+      let id = ele.getAttribute('id') || ''
+      let domHtml = new window.DOMParser().parseFromString(
+        template({ label, value, id, type: self.type }),
+        'text/html'
+      ).body.firstChild
+      self.$htmls.push(domHtml)
+      self._bind(domHtml, ele)
+      self._insertAfter(domHtml, ele)
+      ele.style.display = 'none'
+      if (self.value.indexOf(value) !== -1) {
+        self._onClick(domHtml, ele)
       }
     })
-
-    // this.setValue(this.value)
   }
 
-  setDisable (value, status = true) {
-    let $html = this.$htmls.find(item => item.data('value') == value)
-    if (!$html) { return }
-    if (status) {
-      $html.toggleClass('disabled', false)
-      $html.find('.icon-checkbox').toggleClass('disabled', false)
-    } else {
-      $html.toggleClass('disabled', true)
-      $html.find('.icon-checkbox').toggleClass('disabled', true)
-    }
+  _insertAfter (newNode, curNode) {
+    curNode.parentNode.insertBefore(newNode, curNode.nextElementSibling)
   }
-
+  _getAttr (dom, attr) {
+    const value = dom.getAttribute(attr)
+    if (!value) return ''
+    if (isNaN(value)) return value
+    return value - 0
+  }
   setValue (value, status = true, triggerCb = false) {
-    if (this.$radios.length <= 0) { return }
-
-    let $html = this.$htmls.find(item => item.data('value') == value)
-    $html.prev().prop('checked', status)
-    $html.toggleClass('active', $html.prev().prop('checked'))
-    $html.find('.icon-checkbox').toggleClass('active', $html.prev().prop('checked'))
+    if (this.domCheckboxs.length <= 0) { return }
+    let $html = this.$htmls.filter(item => this._getAttr(item, 'data-value') == value)[0]
+    $html.previousElementSibling.setAttribute('checked', status)
+    if ($html.previousElementSibling.getAttribute('checked') === 'true') {
+      $html.classList.add('active')
+      $html.querySelector('.icon-checkbox').classList.add('active')
+    } else {
+      $html.classList.remove('active')
+      $html.querySelector('.icon-checkbox').classList.remove('active')
+    }
     if (triggerCb) {
-      this.onChange(value, status)
+      this.onChange(value, status, this.getAllCheckedValue())
     }
   }
 
   // 获取所有已经check的value，默认不包括disabled的
-  getAllCheckedValue (disabled = true) {
-    let $htmls
-
-    if (disabled) {
-      $htmls = this.$htmls.filter(item => !item.hasClass('disabled'))
-    } else {
-      $htmls = this.$htmls
-    }
-
-    let values = $htmls.filter(item => {
-      return item.find('.icon-checkbox').hasClass('active')
-    }).map(item => item.data('value'))
-
-    // console.log(values);
+  getAllCheckedValue () {
+    let values = this.$htmls.filter(item => {
+      return item.querySelector('.icon-checkbox').classList.contains('active')
+    }).map(item => this._getAttr(item, 'data-value'))
     return values
   }
 
   checkAll () {
     this.$htmls.forEach($html => {
-      $html.prev().prop('checked', true)
-      $html.toggleClass('active', $html.prev().prop('checked'))
-      $html.find('.icon-checkbox').toggleClass('active', $html.prev().prop('checked'))
+      $html.previousElementSibling.setAttribute('checked', true)
+      if ($html.previousElementSibling.getAttribute('checked') === 'true') {
+        $html.classList.add('active')
+        $html.querySelector('.icon-checkbox').classList.add('active')
+      } else {
+        $html.classList.remove('active')
+        $html.querySelector('.icon-checkbox').classList.remove('active')
+      }
     })
   }
 
   uncheckAll () {
     this.$htmls.forEach($html => {
-      $html.prev().prop('checked', false)
-      $html.toggleClass('active', $html.prev().prop('checked'))
-      $html.find('.icon-checkbox').toggleClass('active', $html.prev().prop('checked'))
+      $html.previousElementSibling.setAttribute('checked', false)
+      if ($html.previousElementSibling.getAttribute('checked') === 'true') {
+        $html.classList.add('active')
+        $html.querySelector('.icon-checkbox').classList.add('active')
+      } else {
+        $html.classList.remove('active')
+        $html.querySelector('.icon-checkbox').classList.remove('active')
+      }
     })
   }
   _onClick ($html, $this) {
-    if ($html.hasClass('disabled')) { return }
-
-    console.log('clicked', $this.prop('checked'))
-    $this.prop('checked', !$this.prop('checked'))
-    $html.toggleClass('active')
-    $html.find('.icon-checkbox').toggleClass('active')
-
-    this.onChange($this.val(), $this.prop('checked'))
+    if ($this.getAttribute('checked') === 'true') {
+      $this.setAttribute('checked', false)
+      $html.classList.remove('active')
+      $html.querySelector('.icon-checkbox').classList.remove('active')
+      this.onChange($this.value, false, this.getAllCheckedValue())
+    } else {
+      $this.setAttribute('checked', true)
+      $html.classList.add('active')
+      $html.querySelector('.icon-checkbox').classList.add('active')
+      this.onChange($this.value, true, this.getAllCheckedValue())
+    }
   }
 
   _bind ($html, $this) {
-    // $html.find('label').click(this._onClick.bind(this,$html,$this));
-    // $html.find('.icon-checkbox').click(this._onClick.bind(this,$html,$this));
-
-    $html.click(this._onClick.bind(this, $html, $this))
+    $html.addEventListener('click', this._onClick.bind(this, $html, $this))
   }
 }

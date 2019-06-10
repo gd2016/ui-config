@@ -5,7 +5,7 @@ import './index.less'
 import PerfectScrollBar from 'perfect-scrollbar'
 const template = function (config) {
   return `
-    <div class="pop-box-mask" style="z-index:${config.zIndex}">
+    <div class="pop-box-mask ${config.maskClass}">
       <div class="pop-content ${config.customClass}">
         <div class="menu">
           <span class="box-label">${config.title}</span>
@@ -54,7 +54,8 @@ export default class PopBox {
       zIndex: 1003,
       modal: true,
       hide: false,
-      padding: 20
+      padding: 20,
+      maskClass: ''
     }, props)
     if (typeof this.$content === 'object' && !(this.$content instanceof window.HTMLElement)) this.$content = this.$content[0]
     if (!(this.$container instanceof window.HTMLElement)) this.$container = this.$container[0]
@@ -63,10 +64,9 @@ export default class PopBox {
 
   updateContent ($content) {
     if (this.popBox) this.popBox.parentNode.removeChild(this.popBox)
-    const zIndex = this.setIndex()
     const parser = new window.DOMParser()
     this.popBox = parser.parseFromString(template({
-      zIndex: zIndex,
+      maskClass: this.maskClass,
       title: this.title,
       customClass: this.customClass,
       btnAlign: this.btnAlign,
@@ -77,6 +77,7 @@ export default class PopBox {
     }), 'text/html').body.firstChild
     if (this.customContent) {
       this.popBox = $content
+      if (typeof this.popBox === 'object' && !(this.popBox instanceof window.HTMLElement)) this.popBox = this.popBox[0]
     } else {
       if (typeof $content === 'object') this.popBox.querySelector('.content').appendChild($content)
       else this.popBox.querySelector('.content').innerHTML = $content
@@ -101,8 +102,7 @@ export default class PopBox {
     if (this.lockScroll) {
       this.$container.classList.add('scroll-lock')
     }
-
-    this.popBox.style.display = 'block'
+    this.popBox.style.display = ''
     if (this.hide) {
       this.resize()
     }
@@ -121,7 +121,9 @@ export default class PopBox {
 
   destroy () {
     this._unbind()
-    this.popBox.parentNode.removeChild(this.popBox)
+    if (this.popBox && this.popBox.parentNode) {
+      this.popBox.parentNode.removeChild(this.popBox)
+    }
   }
 
   resize () {
@@ -163,7 +165,9 @@ export default class PopBox {
       ele.addEventListener('click', this.close.bind(this))
     })
 
-    this.popBox.querySelector('.pop-submit').addEventListener('click', this.submit.bind(this))
+    if (this.popBox.querySelector('.pop-submit')) {
+      this.popBox.querySelector('.pop-submit').addEventListener('click', this.submit.bind(this))
+    }
 
     if (this.emptyClickClose) {
       this.popBox.addEventListener('mousedown', this._emptyClick.bind(this))
@@ -181,18 +185,5 @@ export default class PopBox {
 
   _unbind () {
     window.removeEventListener('resize', this._resize, false)
-  }
-
-  setIndex () {
-    const indexArr = []
-    let zIndex = this.zIndex
-    const Nodes = this.$container.querySelectorAll('.pop-box-mask')
-    Nodes.length && Nodes.forEach((ele, i) => {
-      indexArr.push(ele.style.zIndex)
-    })
-    if (indexArr.length) {
-      zIndex = Math.max.apply(null, indexArr) + 1
-    }
-    return zIndex
   }
 }

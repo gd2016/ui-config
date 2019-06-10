@@ -1,6 +1,6 @@
 {
   "name": "@portal/dls-ui",
-  "version": "1.2.1-alpha.6",
+  "version": "1.2.2",
   "description": "dls-ui",
   "main": "src/index.js",
   "scripts": {

@@ -101,4 +101,60 @@ setTimeout(() => {
 
 ```
 
+## CheckBox
+
+| Key             | Default | Description                                   |
+|-----------------|---------|-----------------------------------------------|
+|  domContainer     | body<element> | 容器(jquery节点或者dom节点) |
+|  name     | 'checkbox' | 容器下checkbox元素的name值，会根据此name找到checkbox元素 |
+|  value     | []\|\|'' |  默认选中值 |
+|  onChange     | Function(value, isCheck, allCheck) |   点击回调，参数是当前点击的value值,是否选中，所有选中值  |
+
+
+### Method
+
+| name             | params | return   | description |
+|-----------------|---------|---------------|--------------------------------|
+|  setValue            |    (value,isCheck,triggerChange)    |   -   | 设置选中value值     |
+|  checkAll    |  -   |  -   | 全选  |
+|  uncheckAll    |  -   |  -   |  全不选 |
+|  getAllCheckedValue    |  -   |   []  |  选中值  |
+
+### Usage
+```html
+<div class="checkbox">
+    <input id="0" type="checkbox" name="timeline-node" value='0' data-label="label1">
+    <input id="1" type="checkbox" name="timeline-node" value='1l' data-label="label2">
+    <input checked id="2" type="checkbox" name="timeline-node" value='2' data-label="label3">
+</div>
+```
+
+```javascript
+import { CheckBox } from '@portal/dls-ui';
+
+var checkbox = new CheckBox({
+  name: 'timeline-node',
+  value: ['1l', 2],
+  onChange: (value, bool, all) => {
+    console.log(value, bool, all)
+  }
+})
+$('#checkAll').click(() => {
+  checkbox.checkAll()
+})
+$('#cancelAll').click(() => {
+  checkbox.uncheckAll()
+})
+$('#getValue').click(() => {
+  console.log(checkbox.getAllCheckedValue())
+})
+$('#setValue').click(() => {
+  checkbox.setValue(0)
+})
+$('#cancelValue').click(() => {
+  checkbox.setValue(0, false, true)
+})
+
+```
+
 
