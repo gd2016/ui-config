@@ -15,7 +15,7 @@ export default class RadioBox {
       domHtmls: [],
       onClick () {}
     }, props)
-
+    console.log('dls-radiobox')
     this._getInputs()
     this._render()
   }
@@ -23,6 +23,7 @@ export default class RadioBox {
   _getInputs () {
     if (!(this.domContainer instanceof window.HTMLElement)) this.domContainer = this.domContainer[0]
     this.domRadios = this.domContainer.querySelectorAll(`input[name='${this.name}']`)
+    console.log(this.domRadios)
   }
 
   _render () {
@@ -67,7 +68,7 @@ export default class RadioBox {
   }
 
   _onClick (domHtml, domthis) {
-    this.domContainer.querySelectorAll('.icon-radio').forEach(ele => {
+    domHtml.parentNode.querySelectorAll('.icon-radio').forEach(ele => {
       ele.classList.remove('active')
     })
     this.domRadios.forEach(ele => {

@@ -15,6 +15,7 @@ export default class Checkbox {
       type: 'normal', // switcher
       onChange () { } // onchange event
     }, props)
+    console.log('dls-checkbox')
     this._getInputs()
     this._render()
   }

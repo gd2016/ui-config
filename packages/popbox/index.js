@@ -57,6 +57,7 @@ export default class PopBox {
       padding: 20,
       maskClass: ''
     }, props)
+    console.log('dls-popbox')
     if (typeof this.$content === 'object' && !(this.$content instanceof window.HTMLElement)) this.$content = this.$content[0]
     if (!(this.$container instanceof window.HTMLElement)) this.$container = this.$container[0]
     this.updateContent(this.$content)

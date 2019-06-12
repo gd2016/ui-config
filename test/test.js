@@ -4,6 +4,8 @@ import '../static/style/radiobox/index.less'
 import '../static/style/checkbox/index.less'
 import RadioBox from '../packages/radiobox/index'
 import CheckBox from '../packages/checkbox'
+import Alert from '../packages/alert/index'
+import '../static/style/alert/index.less'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({
@@ -24,19 +26,21 @@ document.querySelector('#open1').addEventListener('click', () => {
   pop.pop()
 })
 
-var raiod = new RadioBox({
+new RadioBox({
   name: 'abType',
   value: 2,
-  domContainer: document.querySelector('.radiobox'),
   onClick: value => {
     console.log(value)
   }
 })
-// setTimeout(() => {
-//   raiod.setValue(1)
-//   console.log(raiod.getValue())
-// }, 2000)
 
+new RadioBox({
+  name: 'cdType',
+  value: 1,
+  onClick: value => {
+    console.log(value)
+  }
+})
 var checkbox = new CheckBox({
   name: 'timeline-node',
   value: ['1l', 2],
@@ -58,4 +62,11 @@ $('#setValue').click(() => {
 })
 $('#cancelValue').click(() => {
   checkbox.setValue(0, false, true)
+})
+
+$('#alert').click(() => {
+  new Alert({
+    text: '错误',
+    type: 'error'
+  })
 })
