@@ -26,17 +26,18 @@ document.querySelector('#open1').addEventListener('click', () => {
   pop.pop()
 })
 
-new RadioBox({
+const abType = new RadioBox({
   name: 'abType',
-  value: 2,
+  // value: 2,
+  domContainer: $('.radiobox'),
   onClick: value => {
     console.log(value)
   }
 })
-
 new RadioBox({
   name: 'cdType',
-  value: 1,
+  domContainer: $('.radiobox2'),
+  // value: 1,
   onClick: value => {
     console.log(value)
   }

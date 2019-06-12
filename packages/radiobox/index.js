@@ -61,13 +61,13 @@ export default class RadioBox {
 
   setValue (value) {
     let domHtml = this.domHtmls.filter(item => {
-      return item.getAttribute('data-value') == value
+      return item.getAttribute('data-value') == value + ''
     })[0]
     this._onClick(domHtml, domHtml.previousElementSibling)
   }
 
   _onClick (domHtml, domthis) {
-    domHtml.parentNode.querySelectorAll('.icon-radio').forEach(ele => {
+    this.domContainer.querySelectorAll('.icon-radio').forEach(ele => {
       ele.classList.remove('active')
     })
     this.domRadios.forEach(ele => {

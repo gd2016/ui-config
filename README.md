@@ -73,6 +73,8 @@ $("#open").click(()=>{
 |  getValue  | content |   -   | 获取选择value值  |
 |  setValue            |    value    |   -   | 设置选中value值     |
 
+**请在js中设置默认值，不要在html中设置checked**
+
 ### Usage
 ```html
 <div class="radiobox">
@@ -118,6 +120,10 @@ setTimeout(() => {
 |  checkAll    |  -   |  -   | 全选  |
 |  uncheckAll    |  -   |  -   |  全不选 |
 |  getAllCheckedValue    |  -   |   []  |  选中值  |
+
+
+**请在js中设置默认值，不要在html中设置checked**
+
 
 ### Usage
 ```html
