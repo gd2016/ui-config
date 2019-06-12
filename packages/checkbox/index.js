@@ -9,6 +9,7 @@ const template = function (config) {
 export default class Checkbox {
   constructor (props) {
     Object.assign(this, {
+      domContainer: document.querySelector('body'),
       name: 'check', // will find by name
       value: [], // checkbox value
       $htmls: [],
@@ -21,7 +22,7 @@ export default class Checkbox {
   }
 
   _getInputs () {
-    this.domCheckboxs = document.querySelectorAll(`input[name='${this.name}']`)
+    this.domCheckboxs = this.domContainer.querySelectorAll(`input[name='${this.name}']`)
   }
 
   _render () {

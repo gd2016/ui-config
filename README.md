@@ -63,7 +63,6 @@ $("#open").click(()=>{
 |  domContainer     | body<element> | 容器(jquery节点或者dom节点) |
 |  name     | 'radio' | 容器下radio元素的name值，会根据此name找到radio元素 |
 |  value     | '' |  默认选中值 |
-|  domHtmls     | [] |   额外的html元素  |
 |  onClick     | Function(value) |   点击回调，参数是value值  |
 
 
@@ -107,7 +106,7 @@ setTimeout(() => {
 |-----------------|---------|-----------------------------------------------|
 |  domContainer     | body<element> | 容器(jquery节点或者dom节点) |
 |  name     | 'checkbox' | 容器下checkbox元素的name值，会根据此name找到checkbox元素 |
-|  value     | []\|\|'' |  默认选中值 |
+|  value     | []/'' |  默认选中值 |
 |  onChange     | Function(value, isCheck, allCheck) |   点击回调，参数是当前点击的value值,是否选中，所有选中值  |
 
 

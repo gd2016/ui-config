@@ -23,7 +23,6 @@ export default class RadioBox {
   _getInputs () {
     if (!(this.domContainer instanceof window.HTMLElement)) this.domContainer = this.domContainer[0]
     this.domRadios = this.domContainer.querySelectorAll(`input[name='${this.name}']`)
-    console.log(this.domRadios)
   }
 
   _render () {
