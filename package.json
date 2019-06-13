@@ -1,6 +1,6 @@
 {
   "name": "@portal/dls-ui",
-  "version": "1.2.2-alpha.6",
+  "version": "1.2.2-alpha.8",
   "description": "dls-ui",
   "main": "src/index.js",
   "scripts": {
@@ -50,7 +50,7 @@
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   },
-  "dependencies": {
+  "peerDependencies": {
     "perfect-scrollbar": "^1.4.0",
     "validator": "^10.11.0"
   }
