@@ -3,6 +3,7 @@ import langData from '../../src/i18n/output/all.js'
 import I18n from '@ah/i18n'
 import './index.less'
 import PerfectScrollBar from 'perfect-scrollbar'
+import { domParser } from '../../src/utils/domUntils'
 const template = function (config) {
   return `
     <div class="pop-box-mask ${config.maskClass}">
@@ -65,8 +66,7 @@ export default class PopBox {
 
   updateContent ($content) {
     if (this.popBox) this.popBox.parentNode.removeChild(this.popBox)
-    const parser = new window.DOMParser()
-    this.popBox = parser.parseFromString(template({
+    this.popBox = domParser(template({
       maskClass: this.maskClass,
       title: this.title,
       customClass: this.customClass,
@@ -75,7 +75,7 @@ export default class PopBox {
       confirmButtonText: this.confirmButtonText,
       cancelButtonClass: this.cancelButtonClass,
       confirmButtonClass: this.confirmButtonClass
-    }), 'text/html').body.firstChild
+    }))
     if (this.customContent) {
       this.popBox = $content
       if (typeof this.popBox === 'object' && !(this.popBox instanceof window.HTMLElement)) this.popBox = this.popBox[0]
@@ -103,7 +103,7 @@ export default class PopBox {
     if (this.lockScroll) {
       this.$container.classList.add('scroll-lock')
     }
-    this.popBox.style.display = ''
+    this.popBox.style.display = '' // 防止覆盖其他dipaly的默认样式，比如display:flex
     if (this.hide) {
       this.resize()
     }
@@ -122,9 +122,7 @@ export default class PopBox {
 
   destroy () {
     this._unbind()
-    if (this.popBox && this.popBox.parentNode) {
-      this.popBox.parentNode.removeChild(this.popBox)
-    }
+    this.popBox && this.popBox.remove()
   }
 
   resize () {

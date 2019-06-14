@@ -14,8 +14,8 @@ document.querySelector('#open').addEventListener('click', () => {
     cancelButtonText: '123',
     $content: "<h2 id='test'>是否删除？</h2>",
     padding: '20px 30px',
+    width: '430px',
     // emptyClickClose: true,
-    hide: true,
     submit: () => {
       console.log('submit')
     }
@@ -26,9 +26,9 @@ document.querySelector('#open1').addEventListener('click', () => {
   pop.pop()
 })
 
-const abType = new RadioBox({
+new RadioBox({
   name: 'abType',
-  // value: 2,
+  value: 2,
   domContainer: $('.radiobox'),
   onClick: value => {
     console.log(value)
@@ -37,7 +37,7 @@ const abType = new RadioBox({
 new RadioBox({
   name: 'cdType',
   domContainer: $('.radiobox2'),
-  // value: 1,
+  value: 1,
   onClick: value => {
     console.log(value)
   }

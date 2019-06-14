@@ -1,3 +1,4 @@
+import { insertAfter, domParser } from '../../src/utils/domUntils'
 const template = function (config) {
   return `
   <div class="dls-radio-box" data-value="${config.value}">
@@ -32,20 +33,17 @@ export default class RadioBox {
       let value = ele.getAttribute('value') || ''
       let id = ele.getAttribute('id') || ''
 
-      let domHtml = new window.DOMParser().parseFromString(template({ label, value, id }), 'text/html').body.firstChild
+      let domHtml = domParser(template({ label, value, id }))
       self.domHtmls.push(domHtml)
       self._bind(domHtml, ele)
 
-      self.insertAfter(domHtml, ele)
+      insertAfter(domHtml, ele)
       ele.style.display = 'none'
     })
 
     if (this.value !== null) {
       this.setValue(this.value)
     }
-  }
-  insertAfter (newNode, curNode) {
-    curNode.parentNode.insertBefore(newNode, curNode.nextElementSibling)
   }
   // 获取当前选中值
   getValue () {

@@ -1,3 +1,4 @@
+import { insertAfter, domParser } from '../../src/utils/domUntils'
 const template = function (config) {
   return `
   <div class="dls-check-box ${config.type}-box" data-value="${config.value}">
@@ -31,22 +32,15 @@ export default class Checkbox {
       let label = ele.getAttribute('data-label') || ''
       let value = self._getAttr(ele, 'value')
       let id = ele.getAttribute('id') || ''
-      let domHtml = new window.DOMParser().parseFromString(
-        template({ label, value, id, type: self.type }),
-        'text/html'
-      ).body.firstChild
+      let domHtml = domParser(template({ label, value, id, type: self.type }))
       self.$htmls.push(domHtml)
       self._bind(domHtml, ele)
-      self._insertAfter(domHtml, ele)
+      insertAfter(domHtml, ele)
       ele.style.display = 'none'
       if (self.value.indexOf(value) !== -1) {
         self._onClick(domHtml, ele)
       }
     })
-  }
-
-  _insertAfter (newNode, curNode) {
-    curNode.parentNode.insertBefore(newNode, curNode.nextElementSibling)
   }
   _getAttr (dom, attr) {
     const value = dom.getAttribute(attr)
