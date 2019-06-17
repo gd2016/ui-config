@@ -1,0 +1,6 @@
+{
+  "alert": "./packages/alert/index.js",
+  "checkbox": "./packages/checkbox/index.js",
+  "popbox": "./packages/popbox/index.js",
+  "radiobox": "./packages/radiobox/index.js"
+}

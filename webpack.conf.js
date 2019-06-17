@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const I18nPlugin = require('@ah/i18n/src/plugins/webpack')
 const port = 8081
 module.exports = {
+  mode: 'development',
   entry: {
     app: './test/test.js'
   },
@@ -24,7 +25,12 @@ module.exports = {
           loader: 'css-loader' // translates CSS into CommonJS
         },
         {
-          loader: 'less-loader' // compiles Less to CSS
+          loader: 'less-loader', // compiles Less to CSS
+          options: {
+            globalVars: {
+              imgSrc: process.env.NODE_ENV === 'development' ? './' : '__STATIC_COMMON__'
+            }
+          }
         }
 
       ]
@@ -72,3 +78,4 @@ module.exports = {
     })
   ]
 }
+console.log(process.env.NODE_ENV)
