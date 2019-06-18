@@ -17,4 +17,9 @@ gulp.task('less', async () => {
     .pipe(gulp.dest('../lib/style'))
 })
 
-gulp.task('build', gulp.series('index', 'less'))
+gulp.task('components', async () => {
+  await gulp.src('../packages/**')
+    .pipe(gulp.dest('../lib'))
+})
+
+gulp.task('build', gulp.series('index', 'less', 'components'))

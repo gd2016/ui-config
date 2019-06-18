@@ -1,7 +1,6 @@
 /** current used popbox on all history */
 import langData from '../../src/i18n/output/all.js'
 import I18n from '@ah/i18n'
-import './index.less'
 import PerfectScrollBar from 'perfect-scrollbar'
 import { domParser } from '../../src/utils/domUntils'
 const template = function (config) {

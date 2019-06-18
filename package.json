@@ -56,5 +56,8 @@
   "peerDependencies": {
     "perfect-scrollbar": "^1.4.0",
     "validator": "^10.11.0"
+  },
+  "dependencies": {
+    "antd": "^3.19.5"
   }
 }
