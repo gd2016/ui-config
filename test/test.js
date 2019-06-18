@@ -1,8 +1,6 @@
-import PopBox from '../packages/popbox/index'
-import RadioBox from '../packages/radiobox/index'
-import CheckBox from '../packages/checkbox'
-import Alert from '../packages/alert/index'
-import '../static/style/index.less'
+import { PopBox, RadioBox, CheckBox, Alert } from '../src/index'
+import '../static/index.less'
+
 var pop
 document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({

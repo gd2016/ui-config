@@ -1,25 +1,42 @@
-var gulp = require('gulp')
-var less = require('gulp-less')
-var fs = require('fs')
-gulp.task('index', async () => {
-  let langFiles = fs.readdirSync('./style')
-  let indexContent = ''
-  langFiles.forEach(filename => {
-    if (filename === 'img' || filename === 'index.less') return
-    indexContent += '@import "./' + filename.split('.')[0] + '";\n'
+const gulp = require('gulp')
+const fs = require('fs')
+const packagesDir = '../packages'
+
+gulp.task('index:js', async () => {
+  let packages = fs.readdirSync(packagesDir)
+  let indexContent = "console.log('全加载')\n"
+  let pnameArr = []
+  let exportContent = ''
+  packages.forEach(packagename => {
+    if (packagename.indexOf('.') !== -1) return
+    if (packagename.indexOf('-') !== -1) {
+      const nameArr = packagename.split('-')
+      let pname = ''
+      nameArr.forEach(name => {
+        pname += name.substring(0, 1).toUpperCase() + name.substring(1)
+      })
+      indexContent += `import ${pname} from '../packages/${packagename}/index.js'\n`
+      pnameArr.push(pname)
+    } else {
+      indexContent += `import ${packagename} from '../packages/${packagename}/index.js'\n`
+      pnameArr.push(packagename)
+    }
   })
-  fs.writeFileSync('style/index.less', indexContent)
+  pnameArr.forEach(pname => {
+    exportContent += `${pname},\n`
+  })
+  indexContent += `export {${exportContent}}`
+  fs.writeFileSync('../src/index.js', indexContent)
 })
 
-gulp.task('less', async () => {
-  await gulp.src('style/*.less')
-    .pipe(less())
-    .pipe(gulp.dest('../lib/style'))
+gulp.task('index:less', async () => {
+  let packages = fs.readdirSync(packagesDir)
+  let indexContent = ''
+  packages.forEach(packagename => {
+    if (packagename.indexOf('.') !== -1) return
+    indexContent += `@import "../packages/${packagename}/style/${packagename}.less";\n`
+  })
+  fs.writeFileSync('index.less', indexContent)
 })
 
-gulp.task('components', async () => {
-  await gulp.src('../packages/**')
-    .pipe(gulp.dest('../lib'))
-})
-
-gulp.task('build', gulp.series('index', 'less', 'components'))
+gulp.task('build', gulp.series('index:js', 'index:less'))

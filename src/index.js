@@ -1,11 +1,10 @@
-import PopBox from '../packages/popbox/index'
-import RadioBox from '../packages/radiobox/index'
-import CheckBox from '../packages/checkbox/index'
-import Alert from '../packages/alert/index'
-console.warn('全加载')
-export {
-  PopBox,
-  RadioBox,
+import Alert from '../packages/Alert/index.js'
+import CheckBox from '../packages/check-box/index.js'
+import PopBox from '../packages/pop-box/index.js'
+import RadioBox from '../packages/radio-box/index.js'
+console.log('全加载')
+export { Alert,
   CheckBox,
-  Alert
+  PopBox,
+  RadioBox
 }
