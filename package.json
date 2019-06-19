@@ -4,7 +4,7 @@
   "description": "dls-ui",
   "main": "src/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --mode=development --config webpack.conf.js",
+    "dev": "gulp build --gulpfile static/gulpfile.js && webpack-dev-server --mode=development --config webpack.conf.js",
     "build": "webpack  --mode=production --config webpack.conf.js"
   },
   "files": [
