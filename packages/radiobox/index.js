@@ -49,7 +49,7 @@ export default class RadioBox {
   getValue () {
     let value
     for (var i = 0; i < this.domRadios.length; i++) {
-      if (this.domRadios[i].getAttribute('checked') === 'true') {
+      if (this.domRadios[i].checked) {
         value = this.domRadios[i].value
         break
       }
@@ -69,9 +69,11 @@ export default class RadioBox {
       ele.classList.remove('active')
     })
     this.domRadios.forEach(ele => {
-      ele.setAttribute('checked', false)
+      // ele.setAttribute('checked', false)
+      ele.checked = false
     })
-    domthis.setAttribute('checked', true)
+    // domthis.setAttribute('checked', true)
+    domthis.checked = true
     domHtml.querySelector('.icon-radio').classList.add('active')
     this.onClick(domthis.value)
   }

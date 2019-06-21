@@ -26,27 +26,26 @@ document.querySelector('#open1').addEventListener('click', () => {
   pop.pop()
 })
 
-new RadioBox({
+var abRadio = new RadioBox({
   name: 'abType',
-  value: 2,
+  value: 0,
   domContainer: $('.radiobox'),
   onClick: value => {
-    console.log(value)
   }
 })
-new RadioBox({
-  name: 'cdType',
-  domContainer: $('.radiobox2'),
-  value: 1,
-  onClick: value => {
-    console.log(value)
-  }
+$('#getAb').click(() => {
+  $('.radiobox').find('input').each(function () {
+    console.log(abRadio.getValue())
+    console.log($(this), $(this).prop('checked'))
+  })
+})
+$('#setAb').click(() => {
+  abRadio.setValue('1')
 })
 var checkbox = new CheckBox({
   name: 'timeline-node',
   value: ['1l', 2],
   onChange: (value, bool, all) => {
-    console.log(value, bool, all)
   }
 })
 $('#checkAll').click(() => {
@@ -56,6 +55,10 @@ $('#cancelAll').click(() => {
   checkbox.uncheckAll()
 })
 $('#getValue').click(() => {
+  $('.checkbox').find('input').each(function () {
+    console.log($(this), $(this).prop('checked'))
+  })
+
   console.log(checkbox.getAllCheckedValue())
 })
 $('#setValue').click(() => {
