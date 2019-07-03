@@ -5,6 +5,7 @@ import '../static/style/checkbox/index.less'
 import RadioBox from '../packages/radiobox/index'
 import CheckBox from '../packages/checkbox'
 import Alert from '../packages/alert/index'
+import TabPage from '../packages/tabpage/index'
 import '../static/style/alert/index.less'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
@@ -73,4 +74,12 @@ $('#alert').click(() => {
     text: '错误',
     type: 'error'
   })
+})
+
+new TabPage({
+  container: document.querySelector('.tabs-container'),
+  pageContainer: document.querySelector('#pageContainer'),
+  onChange: (a, i) => {
+    console.log(a, i)
+  }
 })

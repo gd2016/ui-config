@@ -8,3 +8,8 @@ export const domParser = (template) => {
     'text/html'
   ).body.firstChild
 }
+
+export const toDom = (dom) => {
+  if (typeof dom === 'object' && !(dom instanceof window.HTMLElement)) dom = dom[0]
+  return dom
+}

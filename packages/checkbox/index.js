@@ -1,4 +1,4 @@
-import { insertAfter, domParser } from '../../src/utils/domUntils' 
+import { insertAfter, domParser } from '../../src/utils/domUntils'
 const template = function (config) {
   return `
   <div class="dls-check-box ${config.type}-box" data-value="${config.value}">
