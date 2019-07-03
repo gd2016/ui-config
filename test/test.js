@@ -6,6 +6,7 @@ import RadioBox from '../packages/radiobox/index'
 import CheckBox from '../packages/checkbox'
 import Alert from '../packages/alert/index'
 import TabPage from '../packages/tabpage/index'
+import Pagination from '../packages/pagination/index'
 import '../static/style/alert/index.less'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
@@ -81,5 +82,14 @@ new TabPage({
   pageContainer: document.querySelector('#pageContainer'),
   onChange: (a, i) => {
     console.log(a, i)
+  }
+})
+
+new Pagination({
+  pageSize: 1,
+  currentNum: 12,
+  displayNum: 10,
+  onChange: (d) => {
+    console.log(d)
   }
 })

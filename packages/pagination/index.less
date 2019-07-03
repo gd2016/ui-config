@@ -1,0 +1,19 @@
+.pagination{
+  .pager-item{
+    width:24px; height:24px; margin-right: 8px; line-height: 24px;
+    text-align: center; color:#5b9bfd; display: inline-block;
+    border-radius: 2px; 
+    //background-color: rgba(91, 155, 253, 0.08);
+    cursor: pointer; user-select: none;
+    &:hover{text-decoration: underline;}
+    &.prev{}
+    &.next{}
+
+    &.active{
+      background: rgba(246, 124, 66, 0.16);
+      color:#f67c42; cursor: default;
+    }
+  }
+
+  padding-bottom: 80px;
+}
