@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "sourceMap": true,
+        "module": "ES6",
+        "declaration": true,
+        "target": "ES6"
+    },
+    "include": [
+        "src/*",
+        "packages/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "static/",
+        "test/"
+    ]
+}
