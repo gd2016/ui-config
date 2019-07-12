@@ -1,13 +1,15 @@
-import PopBox from '../packages/popbox/index'
 import '../static/style/popbox/index.less'
 import '../static/style/radiobox/index.less'
 import '../static/style/checkbox/index.less'
-import RadioBox from '../packages/radiobox/index'
-import CheckBox from '../packages/checkbox'
-import Alert from '../packages/alert/index'
-import TabPage from '../packages/tabpage/index'
-import Pagination from '../packages/pagination/index'
 import '../static/style/alert/index.less'
+import {
+  PopBox,
+  RadioBox,
+  CheckBox,
+  Alert,
+  TabPage,
+  Pagination
+} from '../src/index'
 var pop
 document.querySelector('#open').addEventListener('click', () => {
   pop = new PopBox({
